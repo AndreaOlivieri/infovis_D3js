@@ -43,8 +43,11 @@ function playTriangles(event){
     d3.selectAll(".triangle").each(function(d,i) { 
         var _this = d3.select(this);
         var d_attribute = _this.attr('d').split(" ");
+        var dim = _this.attr("dimension");
         var initial_x = parseInt(d_attribute[1]);
         var initial_y = parseInt(d_attribute[2]);
+        var final_x = event.pageX - dim/2;
+        var final_y = event.pageY - dim/2;
         var currentX = initial_x;
         var currentY = initial_y;
         if(_this.attr("transform")!=null){
@@ -56,10 +59,38 @@ function playTriangles(event){
         var distance = Math.sqrt(Math.pow(event.pageX-currentX,2)+Math.pow(event.pageY-currentY,2));
         var velocity = _this.attr('velocity');
         var time_exec = distance/velocity;
-        var deltaX = event.pageX - initial_x;
-        var deltaY = event.pageY - initial_y;
+        var deltaX = final_x - initial_x;
+        var deltaY = final_y - initial_y;
+        var willMoveRandomPosition = true;
+
+
+        if (final_x < 0){
+            deltaX = -initial_x;
+            willMoveRandomPosition = false;
+        }else{
+            var extraXspace = final_x - parseInt(svg.style("width"), 10) + dim*3/2;
+            if (extraXspace > 0){
+                deltaX = parseInt(svg.style("width"), 10) - initial_x - dim;
+                willMoveRandomPosition = false;
+            }
+        }
+        if (final_y < 0){
+            deltaY = -initial_y;
+            willMoveRandomPosition = false;
+        }else {
+            var extraYspace = final_y - parseInt(svg.style("height"), 10) + dim*3/2;
+            if (extraYspace > 0){
+                deltaY = parseInt(svg.style("height"), 10) - initial_y - dim;
+                willMoveRandomPosition = false;
+            }
+        }
+
         var translate = "translate("+ deltaX +","+ deltaY +")";
-        _this.transition().duration(time_exec).attr("transform", translate).each("end", moveRandomPosition);
+        if(willMoveRandomPosition){
+            _this.transition().duration(time_exec).attr("transform", translate).each("end", moveRandomPosition);
+        }else{
+            _this.transition().duration(time_exec).attr("transform", translate);
+        }
     });
 }
 

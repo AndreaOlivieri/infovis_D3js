@@ -19,7 +19,7 @@ function generateTriangles(){
             .attr('dimension', dim)
             .attr('velocity', 2/dim)
             .attr('d', function(d) { 
-                return 'M ' + x +' '+ y + ' L ' + (x+dim) +' '+ y +' L '+ (x+dim/2) +' '+ (y+dim) +' z';
+                return equilateral_triangle_path(x,y,dim);
             });
     }
 }
@@ -105,7 +105,7 @@ function moveRandomPosition(){
     var y = getRandomCoordinateY(dim);
     _this.attr("transform", null)
             .attr('d', function(d) { 
-                return 'M ' + x +' '+ y + ' L ' + (x+dim) +' '+ y +' L '+ (x+dim/2) +' '+ (y+dim) +' z';
+                return equilateral_triangle_path(x,y,dim);
             });
 }
 
@@ -136,4 +136,8 @@ function getRandomDimension(minDimension, maxDimension) {
     var dim = Math.ceil(Math.random() * (maxDimension-minDimension) + minDimension);
     if (dim%2 != 0) dim++;
     return dim;
+}
+
+function equilateral_triangle_path(x,y,dim) {
+    return 'M ' + x +' '+ y + ' L ' + (x+dim) +' '+ y +' L '+ (x+dim/2) +' '+ (y+dim) +' z';
 }

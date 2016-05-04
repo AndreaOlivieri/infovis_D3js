@@ -12,4 +12,3 @@ Disegna 30 triangoli equilateri di varie dimensioni e colori che si muovono (len
 corrente del mouse (le sovrapposizioni sono permesse). 
 I triangoli non possono uscire dal bordo del disegno. 
 Quando i triangoli raggiungono il mouse vengono spostati in un punto casuale dello schermo.
-
